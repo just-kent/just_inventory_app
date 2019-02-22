@@ -1,0 +1,1 @@
+# just_inventory_app
