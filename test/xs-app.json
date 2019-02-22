@@ -1,0 +1,13 @@
+{
+	"welcomeFile": "index.html",
+	"authenticationMethod": "none",
+	"routes": [ {
+ 		"source": "/node(.*)",
+ 		"destination": "core-backend"
+ 	},
+ 	{
+ 		"source": "(.*)(.xsodata.*)", 
+ 		"destination": "core-backend"
+ 	}
+ 	]
+}

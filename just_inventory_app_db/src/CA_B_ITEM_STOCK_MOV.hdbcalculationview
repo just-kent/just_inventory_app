@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="just_inventory_app.just_inventory_app_db::CA_B_ITEM_STOCK_MOV" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="CA_B_ITEM_STOCK_MOV"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="just_inventory_app.just_inventory_app_db::just_inv_app.ItemStockMov">
+    <resourceUri>just_inventory_app.just_inventory_app_db::just_inv_app.ItemStockMov</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:AggregationView" id="Items_Stock">
+    <viewAttributes>
+      <viewAttribute id="ItemCode">
+        <descriptions defaultDescription="ItemCode"/>
+      </viewAttribute>
+      <viewAttribute id="MoveType">
+        <descriptions defaultDescription="MoveType"/>
+      </viewAttribute>
+      <viewAttribute id="Quantity" aggregationType="sum">
+        <descriptions defaultDescription="Quantity"/>
+      </viewAttribute>
+    
+      <viewAttribute id="Unit">
+        <descriptions defaultDescription="Unit"/>
+      </viewAttribute>
+    </viewAttributes>
+    <calculatedViewAttributes>
+      <calculatedViewAttribute id="CC_STOCK_MOV" datatype="INTEGER" expressionLanguage="COLUMN_ENGINE">
+        <formula>if(&quot;MoveType&quot; = '1',&quot;Quantity&quot;,(-1 * &quot;Quantity&quot;))</formula>
+      </calculatedViewAttribute>
+    </calculatedViewAttributes>
+    <restrictedViewAttributes/>
+    <input node="just_inventory_app.just_inventory_app_db::just_inv_app.ItemStockMov">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ItemCode" source="ItemCode"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MoveType" source="MoveType"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="Quantity" source="Quantity"/>
+    
+      <mapping xsi:type="Calculation:AttributeMapping" target="Unit" source="Unit"/>
+    </input>
+  </calculationView>
+</calculationViews>
+<logicalModel id="Items_Stock">
+  <attributes>
+    <attribute id="ItemCode" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ItemCode"/>
+      <keyMapping columnObjectName="Items_Stock" columnName="ItemCode"/>
+    </attribute>
+  
+    <attribute id="Unit" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Unit"/>
+      <keyMapping columnObjectName="Items_Stock" columnName="Unit"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="CC_STOCK_MOV" order="2" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="CC_STOCK_MOV"/>
+      <measureMapping columnObjectName="Items_Stock" columnName="CC_STOCK_MOV"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Items_Stock" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="100" y="280"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

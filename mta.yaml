@@ -1,0 +1,55 @@
+ID: just_inventory_app
+_schema-version: '2.0'
+version: 0.0.1
+modules:
+  - name: just_inventory_app_db
+    type: hdb
+    path: just_inventory_app_db
+    requires:
+      - name: hdi_just_inventory_app_db
+  - name: just_inventory_app_js
+    type: nodejs
+    path: just_inventory_app_js
+    provides:
+      - name: just_inventory_app_js_api
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: just_inventory_app_db
+      - name: hdi_just_inventory_app_db
+  - name: test
+    type: html5
+    path: test
+    requires:
+      - name: just_inventory_app_js_api
+        group: destinations
+        properties:
+          name: core-backend
+          url: '~{url}'
+
+  - name: test2
+    type: html5
+    path: test2
+    requires:
+     - name: just_inventory_app_js_api
+       group: destinations
+       properties:
+          name: just_inventory_app_js_be
+          url: ~{url}
+
+
+  - name: test3
+    type: html5
+    path: test3
+    requires:
+     - name: just_inventory_app_js_api
+       group: destinations
+       properties:
+          name: just_inventory_app_js_be
+          url: ~{url}
+
+resources:
+  - name: hdi_just_inventory_app_db
+    properties:
+      hdi-container-name: '${service-name}'
+    type: com.sap.xs.hdi-container

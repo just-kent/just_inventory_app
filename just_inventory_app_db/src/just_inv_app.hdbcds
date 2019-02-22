@@ -1,0 +1,34 @@
+namespace just_inventory_app.just_inventory_app_db;
+
+context just_inv_app {
+
+    /*@@layout{"layoutInfo":{"x":-612,"y":-163.5}}*/
+    entity Items {
+        key ItemCode : String(10) not null;
+            ItemName : String(100);
+    };
+
+    /*@@layout{"layoutInfo":{"x":-1155,"y":-258.5}}*/
+    entity ItemPrice {
+        key ItemCode  : String(10) not null;
+            ItemPrice : Decimal(10, 2);
+            Currency  : String(3);
+    };
+
+    /*@@layout{"layoutInfo":{"x":-1155,"y":-85.5}}*/
+    entity ItemStockMov {
+        key ItemCode  : String(10) not null;
+        key CreatedOn : String(8);
+            MoveType  : String(1);
+            Quantity  : Integer;
+            Unit      : String(3);
+    };
+
+    /*@@layout{"layoutInfo":{"x":-1452,"y":-109.5}}*/
+    entity ItemStockBal {
+        key ItemCode  : String(10) not null;
+            CreatedOn : String(8);
+            Quantity  : Integer;
+            Unit      : String(3);
+    };
+};

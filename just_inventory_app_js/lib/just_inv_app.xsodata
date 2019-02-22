@@ -1,0 +1,9 @@
+service {
+
+       "just_inventory_app.just_inventory_app_db::CA_I_ITEM_STOCK_MOV" as "ITEM_STOCK" key ("ItemCode") navigates ("ITEM_STOCK" as "ITEM_STOCK");
+       "just_inventory_app.just_inventory_app_db::CA_I_ITEM_PRICE" as "ITEM_PRICE" key ("ItemCode") navigates ("ITEM_PRICE" as "ITEM_PRICE");
+       
+       association "ITEM_STOCK" principal "ITEM_STOCK"("ItemCode") multiplicity "1" dependent "ITEM_PRICE"("ItemCode") multiplicity "1";
+       association "ITEM_PRICE" principal "ITEM_PRICE"("ItemCode") multiplicity "1" dependent "ITEM_STOCK"("ItemCode") multiplicity "1";
+
+}

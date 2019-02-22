@@ -1,0 +1,52 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" Version="1.0">
+    <edmx:DataServices
+        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="2.0">
+        <Schema
+            xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+            xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="default">
+            <EntityType Name="ITEM_STOCKType">
+                <Key>
+                    <PropertyRef Name="ItemCode"/>
+                </Key>
+                <Property Name="ItemCode" Type="Edm.String" MaxLength="10"/>
+                <Property Name="ItemName" Type="Edm.String" MaxLength="100"/>
+                <Property Name="Unit" Type="Edm.String" MaxLength="3"/>
+                <Property Name="CC_STOCK_MOV" Type="Edm.Int32"/>
+                <Property Name="CC_STOCK_MOV_BAL" Type="Edm.Int32"/>
+                <NavigationProperty Name="ITEM_STOCK" Relationship="default.ITEM_STOCKType" FromRole="ITEM_STOCKPrincipal" ToRole="ITEM_PRICEDependent"/>
+            </EntityType>
+            <EntityType Name="ITEM_PRICEType">
+                <Key>
+                    <PropertyRef Name="ItemCode"/>
+                </Key>
+                <Property Name="ItemCode" Type="Edm.String" MaxLength="10"/>
+                <Property Name="ItemName" Type="Edm.String" MaxLength="100"/>
+                <Property Name="Currency" Type="Edm.String" MaxLength="3"/>
+                <Property Name="ItemPrice" Type="Edm.Decimal" Precision="10" Scale="2"/>
+                <NavigationProperty Name="ITEM_PRICE" Relationship="default.ITEM_PRICEType" FromRole="ITEM_PRICEPrincipal" ToRole="ITEM_STOCKDependent"/>
+            </EntityType>
+            <Association Name="ITEM_STOCKType">
+                <End Type="default.ITEM_STOCKType" Role="ITEM_STOCKPrincipal" Multiplicity="1"/>
+                <End Type="default.ITEM_PRICEType" Role="ITEM_PRICEDependent" Multiplicity="1"/>
+            </Association>
+            <Association Name="ITEM_PRICEType">
+                <End Type="default.ITEM_PRICEType" Role="ITEM_PRICEPrincipal" Multiplicity="1"/>
+                <End Type="default.ITEM_STOCKType" Role="ITEM_STOCKDependent" Multiplicity="1"/>
+            </Association>
+            <EntityContainer Name="v2" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="ITEM_STOCK" EntityType="default.ITEM_STOCKType"/>
+                <EntitySet Name="ITEM_PRICE" EntityType="default.ITEM_PRICEType"/>
+                <AssociationSet Name="ITEM_STOCK" Association="default.ITEM_STOCKType">
+                    <End Role="ITEM_STOCKPrincipal" EntitySet="ITEM_STOCK"/>
+                    <End Role="ITEM_PRICEDependent" EntitySet="ITEM_PRICE"/>
+                </AssociationSet>
+                <AssociationSet Name="ITEM_PRICE" Association="default.ITEM_PRICEType">
+                    <End Role="ITEM_PRICEPrincipal" EntitySet="ITEM_PRICE"/>
+                    <End Role="ITEM_STOCKDependent" EntitySet="ITEM_STOCK"/>
+                </AssociationSet>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

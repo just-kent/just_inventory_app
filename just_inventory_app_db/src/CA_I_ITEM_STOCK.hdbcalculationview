@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="just_inventory_app.just_inventory_app_db::CA_I_ITEM_STOCK" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="CA_I_ITEM_STOCK"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="just_inventory_app.just_inventory_app_db::just_inv_app.Items">
+    <resourceUri>just_inventory_app.just_inventory_app_db::just_inv_app.Items</resourceUri>
+  </DataSource>
+  <DataSource id="just_inventory_app.just_inventory_app_db::CA_I_ITEM_STOCK_MOV">
+    <resourceUri>just_inventory_app.just_inventory_app_db::CA_I_ITEM_STOCK_MOV</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Items">
+    <viewAttributes>
+      <viewAttribute id="ItemCode">
+        <descriptions defaultDescription="ItemCode"/>
+      </viewAttribute>
+      <viewAttribute id="ItemName">
+        <descriptions defaultDescription="ItemName"/>
+      </viewAttribute>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="just_inventory_app.just_inventory_app_db::just_inv_app.Items">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ItemCode" source="ItemCode"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ItemName" source="ItemName"/>
+    </input>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Item_Stock">
+    <viewAttributes>
+      <viewAttribute id="ItemCode">
+        <descriptions defaultDescription="ItemCode"/>
+      </viewAttribute>
+      <viewAttribute id="CC_STOCK_MOV_BAL">
+        <descriptions defaultDescription="CC_STOCK_MOV_BAL"/>
+      </viewAttribute>
+    
+      <viewAttribute id="Unit">
+        <descriptions defaultDescription="Unit"/>
+      </viewAttribute>
+    
+      <viewAttribute id="ItemName">
+        <descriptions defaultDescription="ItemName"/>
+      </viewAttribute>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="just_inventory_app.just_inventory_app_db::CA_I_ITEM_STOCK_MOV">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ItemCode" source="ItemCode"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CC_STOCK_MOV_BAL" source="CC_STOCK_MOV_BAL"/>
+    
+      <mapping xsi:type="Calculation:AttributeMapping" target="Unit" source="Unit"/>
+    
+      <mapping xsi:type="Calculation:AttributeMapping" target="ItemName" source="ItemName"/>
+    </input>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1" cardinality="CN_N" joinType="inner">
+    <viewAttributes>
+      <viewAttribute id="ItemCode">
+        <descriptions defaultDescription="ItemCode"/>
+      </viewAttribute>
+      <viewAttribute id="ItemName">
+        <descriptions defaultDescription="ItemName"/>
+      </viewAttribute>
+      <viewAttribute id="CC_STOCK_MOV_BAL" aggregationType="sum">
+        <descriptions defaultDescription="CC_STOCK_MOV_BAL"/>
+      </viewAttribute>
+    
+      <viewAttribute id="Unit">
+        <descriptions defaultDescription="Unit"/>
+      </viewAttribute>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="Items">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ItemCode" source="ItemCode"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ItemName" source="ItemName"/>
+    </input>
+    <input node="Item_Stock">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CC_STOCK_MOV_BAL" source="CC_STOCK_MOV_BAL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="Unit" source="Unit"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ItemCode" source="ItemCode"/>
+    </input>
+    <joinAttribute name="ItemCode"/>
+  </calculationView>
+</calculationViews>
+<logicalModel id="Join_1">
+  <attributes>
+    <attribute id="ItemCode" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ItemCode"/>
+      <keyMapping columnObjectName="Join_1" columnName="ItemCode"/>
+    </attribute>
+    <attribute id="ItemName" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ItemName"/>
+      <keyMapping columnObjectName="Join_1" columnName="ItemName"/>
+    </attribute>
+  
+    <attribute id="Unit" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Unit"/>
+  
+      <keyMapping columnObjectName="Join_1" columnName="Unit"/>
+  
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="CC_STOCK_MOV_BAL" order="3" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="CC_STOCK_MOV_BAL"/>
+      <measureMapping columnObjectName="Join_1" columnName="CC_STOCK_MOV_BAL"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="221" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Items" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="356"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Item_Stock" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="302" y="356"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="221" y="217"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="Items" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+    <shape modelObjectName="Item_Stock" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

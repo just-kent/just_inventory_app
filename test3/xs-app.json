@@ -1,0 +1,5 @@
+{
+  "welcomeFile": "index.html",
+  "authenticationMethod": "none",
+  "routes": [{ "source": "/just_inv_app.xsodata/", "destination": "just_inventory_app_js_be" }]
+}
